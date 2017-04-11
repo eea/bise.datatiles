@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <script src="/++resource++orderedselect_input.js"></script>
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Edit and select the source Sparql query from the portal.
+    </p>
+
+    <div tal:condition="not: is_empty"
+            class="cover-daviz-singlerow-tile tile-content"
+            tal:define="children view/children;
+            is_compose_mode python: view.is_compose_mode()">
+
+      <div class="edit_links" tal:condition="is_compose_mode">
+        <a tal:repeat="source view/get_sources"
+           tal:attributes="href string:${source/absolute_url}/edit"
+           target="_blank">Edit source</a>
+      </div>
+
+      <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
+        <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>
+        <div class="text" tal:condition="text" tal:content="structure text/output">Text</div>
+        <span class="show_more">
+          <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a>
+        </span>
+
+        <button type="button" id="right-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+        <button type="button" id="left-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+
+        <div class="singlerow-cards-wrapper">
+          <div class="singlerow-cards">
+
+            <div tal:repeat="obj children" class="singlerow-card">
+              <div class="singlerow-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
+                <img tal:attributes="src obj/thumb_url" />
+                <p class="singlerow-desc">
+                <a href="" tal:attributes="href obj/item_url" tal:content="obj/item_title">Item Title</a>
+                </p>
+                <span class="singlerow-card-date" tal:condition="published">
+                  Published on <span tal:replace="python: context.toLocalizedTime(published)">Aug</span>
+                </span>
+              </div>
+            </div>
+
+            <div tal:condition="not:children">
+              Waiting for data to arrive. Please reload page.
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

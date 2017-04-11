@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<registry>
+
+    <record name="plone.app.tiles">
+        <value purge="false">
+            <element>bise.folder_contents_listing</element>
+            <element>bise.es_teaser</element>
+            <element>bise.es_listing</element>
+            <element>bise.daviz_singlerow_listing</element>
+            <element>bise.daviz_grid_listing</element>
+            <element>bise.daviz_fullwidth</element>
+            <element>bise.daviz_preview</element>
+            <element>bise.embed</element>
+        </value>
+    </record>
+
+    <record name="collective.cover.controlpanel.ICoverSettings.available_tiles">
+        <value purge="false">
+            <element>bise.folder_contents_listing</element>
+            <element>bise.es_teaser</element>
+            <element>bise.es_listing</element>
+            <element>bise.daviz_singlerow_listing</element>
+            <element>bise.daviz_grid_listing</element>
+            <element>bise.daviz_fullwidth</element>
+            <element>bise.daviz_preview</element>
+            <element>bise.embed</element>
+        </value>
+    </record>
+
+</registry>
+

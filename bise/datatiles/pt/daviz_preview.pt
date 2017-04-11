@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Please fill in details
+    </p>
+
+    <div tal:condition="not: is_empty" class="cover-davizpreview-tile tile-content">
+      <style>
+      </style>
+      <h4 tal:content="python: view.data.get('title')">Tile title here</h4>
+      <div class="cover-davizpreview-body" tal:define="url python: view.data.get('daviz_url')">
+        <div class="desc" tal:on-error="nothing"
+          tal:content="structure python:view.data.get('description').output"></div>
+        <div class="content">
+          <h5 tal:content="python: view.data.get('daviz_title')" >Title here</h5>
+          <a href="" tal:attributes="href url" target="_blank">
+            <img src=""
+            tal:attributes="src python:view.cleanup_url(url) + '/image_preview'" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

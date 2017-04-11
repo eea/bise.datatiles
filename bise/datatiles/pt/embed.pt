@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty; is_compose view/is_compose_mode">
+    <p tal:condition="python: is_empty and is_compose" i18n:translate="">
+    Please edit the tile to add the code to be embedded.
+    </p>
+
+    <div tal:condition="not: is_empty" class="cover-embed-tile tile-content">
+
+      <h3
+        tal:condition="is_compose"
+        tal:content="python: view.data.get('title')">Title here</h3>
+
+      <div class="well" tal:condition="is_compose">
+        <p><strong>Embed code:</strong></p>
+        <pre>
+        <code tal:content="python:view.data.get('embed')" ></code>
+        </pre>
+      </div>
+
+      <div tal:replace="structure python:view.data.get('embed')" ></div>
+
+      <tal:def tal:define="text python: view.data['description'] and view.data['description'].output or ''">
+        <div class="text" tal:condition="text" tal:content="structure text">Text</div>
+      </tal:def>
+
+      <div class="visualClear"><!-- --></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:grok="http://namespaces.zope.org/grok"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="bise.datatiles">
+
+  <plone:tile
+    name="bise.folder_contents_listing"
+    title="Folder Contents Listing"
+    description="A tile to list folder contents"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".contents.IFolderContentsListingTile"
+    class=".contents.FolderContentsListingTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <!-- TODO: remove this after development, it is duplicate -->
+  <!-- <plone:tile -->
+  <!--   name="bise.daviz_listing" -->
+  <!--   title="Daviz Grid Listing" -->
+  <!--   description="A tile to list Daviz in a grid" -->
+  <!--   add_permission="cmf.ModifyPortalContent" -->
+  <!--   schema=".listing.IListingTile" -->
+  <!--   class=".listing.DavizGridListingTile" -->
+  <!--   permission="zope2.View" -->
+  <!--   for="*" -->
+  <!--   /> -->
+
+  <plone:tile
+    name="bise.daviz_grid_listing"
+    title="Daviz Grid Listing"
+    description="A tile to list Daviz in a grid"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".listing.IListingTile"
+    class=".listing.DavizGridListingTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.daviz_singlerow_listing"
+    title="Daviz SingleRow Listing"
+    description="A tile to list Daviz in a row"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".listing.IListingTile"
+    class=".listing.DavizSingleRowListingTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.es_teaser"
+    title="ES Results Teaser"
+    description="A tile to tease ES results"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".listing.IElasticSearchTile"
+    class=".listing.ElasticSearchTeaserTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.es_listing"
+    title="ES Results Listing"
+    description="A tile to tease ES results"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".listing.IElasticSearchTile"
+    class=".listing.ElasticSearchListingTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.daviz_fullwidth"
+    title="Daviz FullWidth"
+    description="A tile to show Daviz full width"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".daviz.IDavizTile"
+    class=".daviz.DavizFullWidthTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.daviz_preview"
+    title="Daviz Preview"
+    description="A tile to show Daviz as preview"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".daviz.IDavizTile"
+    class=".daviz.DavizPreviewTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="bise.embed"
+    title="Bise Embedding Tile"
+    description="A tile to embed content from a remote source."
+    icon="++resource++collective.cover/img/tile-embed.png"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".embed.IEmbedTile"
+    class=".embed.EmbedTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+</configure>

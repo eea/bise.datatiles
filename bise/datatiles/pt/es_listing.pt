@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Edit and select the source ElasticSearch query from the portal.
+    </p>
+
+    <div class="edit_links" tal:condition="view/is_compose_mode">
+      <a
+         tal:repeat="source view/get_sources"
+         tal:attributes="href string:${source/absolute_url}/edit"
+         target="_blank">Edit source</a>
+    </div>
+
+    <div tal:condition="not: is_empty" class="cover-elasticsearchlisting-tile
+      tile-content" tal:define="children view/children;
+      text python: view.data['text']">
+      <div class="cover-elasticsearchlisting-tile-title">
+        <h4 tal:content="view/title" >Title here</h4>
+      </div>
+      <div class="text" tal:condition="text" tal:content="structure text/output">Text</div>
+      <ul tal:condition="children" class="list-others">
+        <li tal:repeat="obj python: children[:10]">
+          <a href="" tal:attributes="href python: view.get_url(obj)"
+            tal:content="python: view.get_title(obj)">Something</a>
+        </li>
+      </ul>
+      <div tal:condition="not:children">
+        No results from ElasticSearch query
+      </div>
+      <!-- <div class="cover&#45;elasticsearchlisting&#45;tile&#45;footer"> -->
+      <!--   <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">View More</a> -->
+      <!-- </div> -->
+    </div>
+  </body>
+</html>

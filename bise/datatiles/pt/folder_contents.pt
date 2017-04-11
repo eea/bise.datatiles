@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Empty
+    </p>
+
+    <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
+      <div class="cover-foldercontentslisting-tile-title">
+        <span tal:content="view/title" >Title</span>
+      </div>
+      <ul class="folder-contents-listing" >
+        <li tal:repeat="obj view/children">
+          <a href="" tal:attributes="href obj/getURL" tal:content="obj/Title">Sublocation</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
