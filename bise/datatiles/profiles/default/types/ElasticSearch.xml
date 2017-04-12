@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
-<object name="bise.ecosystemservices.elasticsearch"
+<object name="bise.datatiles.elasticsearch"
    meta_type="Dexterity FTI"
-   i18n:domain="bise.ecosystemservices" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   i18n:domain="bise.datatiles" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic metadata -->
   <property name="title" i18n:translate="">ElasticSearch</property>
   <property name="description"
     i18n:translate="">ElasticSearch precooked results on query</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
-  <property name="factory">bise.ecosystemservices.elasticsearch</property>
+  <property name="factory">bise.datatiles.elasticsearch</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">bise.ecosystemservices.elasticsearch.IElasticSearch</property>
-  <property name="klass">bise.ecosystemservices.elasticsearch.ElasticSearch</property>
+  <property name="schema">bise.datatiles.elasticsearch.IElasticSearch</property>
+  <property name="klass">bise.datatiles.elasticsearch.ElasticSearch</property>
 
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle" />
