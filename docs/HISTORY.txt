@@ -3,6 +3,7 @@ Changelog
 
 1.1.dev0 - (unreleased)
 -----------------------
+* Feature: implement a generic zoom for any EEA content type.
 
 1.0 - (2017-04-13)
 ------------------
