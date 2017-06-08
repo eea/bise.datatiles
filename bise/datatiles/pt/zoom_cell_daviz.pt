@@ -1,0 +1,6 @@
+<div class="iframe-wrapper is-loading"
+     tal:define="info options/info"
+     tal:attributes="data-iframe-url string:${info/item_url}/embed-chart?chart=chart_1&chartWidth=600&padding=fixed;"
+     data-iframe-width="600"
+     data-iframe-height="600">
+</div>

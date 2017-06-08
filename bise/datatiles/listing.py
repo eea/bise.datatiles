@@ -11,6 +11,7 @@ from plone.app.uuid.utils import uuidToObject
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
+from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from zope.schema import TextLine, Int, Choice, Tuple
 import json
 import logging
@@ -56,6 +57,15 @@ class IListingTile(IPersistentCoverTile):
     )
 
 
+DAVIZ_TPL = PageTemplateFile('pt/zoom_cell_daviz.pt')
+GENERIC_TPL = PageTemplateFile('pt/zoom_cell_generic.pt')
+
+tile_zooms = {
+    'http://www.eea.europa.eu/portal_types/' +
+    'DavizVisualization#DavizVisualization': DAVIZ_TPL,
+}
+
+
 class DavizListingTile(PersistentCoverTile):
     """ Base class for Daviz listing tiles
 
@@ -69,7 +79,18 @@ class DavizListingTile(PersistentCoverTile):
     implements(IListingTile)
 
     def render_cell(self, info):
-        return self.cell_tpl(daviz=info)
+        return self.cell_tpl(info=info)
+
+    def render_zoom(self, info):
+        tpl = None
+        for _type in info['item_type']:
+            tpl = tile_zooms.get(_type)
+            if tpl:
+                break
+
+        if tpl is None:
+            tpl = GENERIC_TPL
+        return tpl(self.context, info=info)
 
     def accepted_ct(self):
         """Return an empty list as no content types are accepted."""
@@ -103,6 +124,7 @@ class DavizListingTile(PersistentCoverTile):
 
         for row in self._to_dict(rows, cols):
             row['thumb_url'] = "%s/image_preview" % row['item_url']
+            row['item_type'] = str(row['item_type']).split(' ')
             result.append(row)
             # a row needs to have:
             # thumb_url, item_url, item_title, item_published
@@ -202,7 +224,7 @@ class DavizGridListingTile(DavizListingTile):
     """
 
     index = ViewPageTemplateFile('pt/daviz_grid_listing.pt')
-    cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
+    cell_tpl = ViewPageTemplateFile('pt/generic_cell.pt')
 
     short_name = u'Daviz Grid'
 
@@ -212,7 +234,7 @@ class DavizSingleRowListingTile(DavizListingTile):
     """
 
     index = ViewPageTemplateFile('pt/daviz_singlerow_listing.pt')
-    cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
+    cell_tpl = ViewPageTemplateFile('pt/generic_cell.pt')
 
     short_name = "Visualizations Row"
 

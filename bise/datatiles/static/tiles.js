@@ -35,7 +35,7 @@ $(document).ready(function(){
         iframe.parentNode.classList.remove('is-loading');
       }
 
-      $ifw[0].appendChild(iframe);
+      if (($ifw).length > 0) $ifw[0].appendChild(iframe);
 
       if ($cell.not($thisCell).hasClass('is-inactive')) {
         //do nothing

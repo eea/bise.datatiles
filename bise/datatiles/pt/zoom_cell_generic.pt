@@ -1,0 +1,3 @@
+<div tal:define="info options/info">
+  <img style="width:100%" src="" tal:attributes="src string: ${info/item_url}/image_large"/>
+</div>
