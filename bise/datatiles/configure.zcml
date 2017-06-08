@@ -9,7 +9,10 @@
   i18n_domain="bise.datatiles">
 
   <five:registerPackage package="." initialize=".initialize" />
+  
+  <includeDependencies package="." />
 
+  <include package="plone.tiles" file="meta.zcml" />
   <include file='tiles.zcml' />
   <include package='.content' />
 

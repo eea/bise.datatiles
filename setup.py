@@ -30,6 +30,10 @@ setup(name=NAME,
           'setuptools',
           'plone.app.dexterity [relations]',
           # -*- Extra requirements: -*-
+          'plone.directives.form',
+          'plone.directives.dexterity',
+          'plone.app.tiles',
+          'collective.cover',
       ],
       entry_points="""
       # -*- Entry points: -*-
