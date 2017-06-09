@@ -83,7 +83,10 @@ class DavizListingTile(PersistentCoverTile):
 
     def render_zoom(self, info):
         tpl = None
-        for _type in info['item_type']:
+        types = info['item_type']
+        if isinstance(types, basestring):
+            types = [types]
+        for _type in types:
             tpl = tile_zooms.get(_type)
             if tpl:
                 break
@@ -116,18 +119,39 @@ class DavizListingTile(PersistentCoverTile):
                              "for sparql %s", source)
             return []
         try:
-            rows, cols = (data['result']['rows'][:count],
-                          data['result']['var_names'][:count])
+            rows, cols = (data['result']['rows'],
+                          data['result']['var_names'])
         except Exception:
             logger.exception("No results in sparql %s", source)
             return []
 
+        count = count or 6
+        seen = []
+        to = 0
         for row in self._to_dict(rows, cols):
+            for k, v in row.items():
+                row[k] = unicode(v)
+            if row['item_url'] in seen:
+                this_row = [r for r in result 
+                        if r['item_url'] == row['item_url']][0]
+                for k, v in row.items():
+                    v = unicode(v)
+                    if v == this_row[k]:
+                        continue
+                    if isinstance(this_row[k], list):
+                        this_row[k].append(v)
+                    else:
+                        this_row[k] = [this_row[k], v]
+                continue
+            seen.append(row['item_url'])
             row['thumb_url'] = "%s/image_preview" % row['item_url']
-            row['item_type'] = str(row['item_type']).split(' ')
             result.append(row)
+
+            to += 1
+            if to >= count:
+                break
             # a row needs to have:
-            # thumb_url, item_url, item_title, item_published
+            # thumb_url, item_url, item_title, item_published, item_type (a list)
         return result
 
     def _extract_es_data(self, source, count):
