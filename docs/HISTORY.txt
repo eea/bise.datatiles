@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.dev0 - (unreleased)
------------------------
+1.2 - (2017-06-09)
+------------------
 * Change: improve the zoom for data tiles
 
 1.1 - (2017-06-08)
