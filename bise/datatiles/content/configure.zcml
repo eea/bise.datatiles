@@ -8,11 +8,11 @@
   xmlns:plone="http://namespaces.plone.org/plone"
   i18n_domain="bise.datatiles">
 
-  <subscriber
-    for=".elasticsearch.IElasticSearch
-    zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".elasticsearch.handle_es_change"
-    />
+  <!-- <subscriber -->
+  <!--   for=".elasticsearch.IElasticSearch -->
+  <!--   zope.lifecycleevent.interfaces.IObjectAddedEvent" -->
+  <!--   handler=".elasticsearch.handle_es_change" -->
+  <!--   /> -->
 
   <subscriber
     for=".elasticsearch.IElasticSearch
