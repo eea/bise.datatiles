@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.3.dev0 - (unreleased)
------------------------
+1.3 - (2017-09-22)
+------------------
 * Bug fix: only trigger data gathering for Elasticsearch on modify event
   [tiberich #85852]
 
