@@ -1,20 +1,21 @@
 """ Listing tiles
 """
 
+import json
+import logging
+
+from collective.cover.tiles.base import (IPersistentCoverTile,
+                                         PersistentCoverTile)
 from DateTime import DateTime
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collective.cover.tiles.base import IPersistentCoverTile
-from collective.cover.tiles.base import PersistentCoverTile
 from plone.app.textfield import RichText
 from plone.app.uuid.utils import uuidToObject
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
-from zope.schema import TextLine, Int, Choice, Tuple
-import json
-import logging
+from zope.schema import Choice, Int, TextLine, Tuple
 
 # from z3c.relationfield.schema import RelationChoice
 # from plone.formwidget.contenttree import UUIDSourceBinder
@@ -83,30 +84,42 @@ class DavizListingTile(PersistentCoverTile):
 
     def render_zoom(self, info):
         tpl = None
-        types = info['item_type']
+        try:
+            types = info['item_type']
+        except KeyError:
+            import pdb; pdb.set_trace()
+
         if isinstance(types, basestring):
             types = [types]
+
         for _type in types:
             tpl = tile_zooms.get(_type)
+
             if tpl:
                 break
 
         if tpl is None:
             tpl = GENERIC_TPL
+
         return tpl(self.context, info=info)
 
     def accepted_ct(self):
         """Return an empty list as no content types are accepted."""
+
         return ['Sparql']
 
     def get_sources(self):
         uuids = self.data.get('uuid')
+
         if not uuids:
             raise StopIteration
+
         for uuid in uuids:
             source = uuidToObject(uuid)
+
             if not source:
                 logger.warning("Could not find object with uuid %s", uuid)
+
                 continue
             yield source
 
@@ -117,45 +130,57 @@ class DavizListingTile(PersistentCoverTile):
         except Exception:
             logger.exception("Error in getting cached data "
                              "for sparql %s", source)
+
             return []
         try:
             rows, cols = (data['result']['rows'],
                           data['result']['var_names'])
         except Exception:
             logger.exception("No results in sparql %s", source)
+
             return []
 
         count = count or 6
         seen = []
         to = 0
+
         for row in self._to_dict(rows, cols):
             for k, v in row.items():
                 row[k] = unicode(v)
+
             if row['item_url'] in seen:
-                this_row = [r for r in result 
-                        if r['item_url'] == row['item_url']][0]
+                this_row = [
+                    r for r in result if r['item_url'] == row['item_url']
+                ][0]
+
                 for k, v in row.items():
                     v = unicode(v)
+
                     if v == this_row[k]:
                         continue
+
                     if isinstance(this_row[k], list):
                         this_row[k].append(v)
                     else:
                         this_row[k] = [this_row[k], v]
+
                 continue
             seen.append(row['item_url'])
             row['thumb_url'] = "%s/image_preview" % row['item_url']
             result.append(row)
 
             to += 1
+
             if to >= count:
                 break
             # a row needs to have:
-            # thumb_url, item_url, item_title, item_published, item_type (a list)
+            # thumb_url, item_url, item_title, item_published, item_type
+
         return result
 
     def _extract_es_data(self, source, count):
         text = source.get_cached_results()
+
         if not text:
             return []
         data = json.loads(text)
@@ -175,8 +200,10 @@ class DavizListingTile(PersistentCoverTile):
 
         for row in rows:
             title = row.get('title', row.get('name'))
+
             if not title:
                 logger.warning("Could not extract row information for %r", row)
+
                 continue
             row['item_title'] = title
             row['thumb_url'] = (source.base_address or '') + \
@@ -185,6 +212,7 @@ class DavizListingTile(PersistentCoverTile):
             row['item_published'] = row.get('published_on', '')
             result.append(row)
             c += 1
+
             if c > count:
                 break
 
@@ -195,6 +223,7 @@ class DavizListingTile(PersistentCoverTile):
         sources = self.get_sources()
 
         result = []
+
         for source in sources:
             if source.portal_type == "Sparql":
                 result.extend(self._extract_sparql_data(source, count))
@@ -223,8 +252,10 @@ class DavizListingTile(PersistentCoverTile):
         """ Packs a sparql result into a listing of dicts
         """
         res = []
+
         for row in rows:
             l = {}
+
             for i, c in enumerate(cols):
                 l[c] = row[i]
             res.append(l)
@@ -234,12 +265,14 @@ class DavizListingTile(PersistentCoverTile):
     def format_date(self, ds):
         """ Convert a (possible) sparql literal to DateTime
         """
+
         if str(ds) == "None":
             return None
         try:
             return DateTime(str(ds))
         except Exception:
             logger.exception("Error while parsing date from sparql")
+
             return None
 
 
@@ -291,14 +324,17 @@ class ElasticSearchBaseTile(PersistentCoverTile):
 
     def children(self):
         uuid = self.data.get('uuid')
+
         if not uuid:
             return []
         source = uuidToObject(uuid)
+
         if not source:
             return []
 
         data = {}
         text = source.get_cached_results()
+
         if text:
             data = json.loads(text)
         else:
@@ -314,6 +350,7 @@ class ElasticSearchBaseTile(PersistentCoverTile):
 
     def accepted_ct(self):
         """Return an empty list as no content types are accepted."""
+
         return ['ElasticSearch']
 
     def populate_with_object(self, obj):
@@ -334,11 +371,14 @@ class ElasticSearchBaseTile(PersistentCoverTile):
 
     def get_sources(self):
         uuid = self.data.get('uuid')
+
         if not uuid:
             return []
         source = uuidToObject(uuid)
+
         if not source:
             logger.warning("Could not find object with uuid %s", uuid)
+
         return [source]
 
 
@@ -370,9 +410,11 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
             lambda o: (base or '') + obj['file_name'],
             lambda o: fallback + obj['file_name'],
         ]
+
         for (i, s) in enumerate(strategies):
             try:
                 val = s(obj)
+
                 if val:
                     return val
             except KeyError:
@@ -383,5 +425,6 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
     def get_title(self, obj):
         if 'title' in obj:
             return obj['title']
+
         if 'name' in obj:
             return obj['name']

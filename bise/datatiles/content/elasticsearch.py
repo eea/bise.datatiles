@@ -1,22 +1,22 @@
 """ A content type to define an cache an ElasticSearch query
 """
 
+import datetime
+import json
+import logging
+
+import DateTime
+import pytz
+import requests
 # from eea.cache import cache
 from plone import namedfile
 from plone.app.async.interfaces import IAsyncService
-from plone.directives import dexterity
-from plone.directives import form
+from plone.directives import dexterity, form
 from plone.namedfile.file import NamedFile
 from plone.uuid.interfaces import IUUID
 from zope import schema
 from zope.component import getUtility
 from zope.interface import implements
-import DateTime
-import datetime
-import json
-import logging
-import pytz
-import requests
 
 logger = logging.getLogger('bise.datatiles.elasticsearch')
 
@@ -56,7 +56,7 @@ class ElasticSearch(dexterity.Item):
     implements(IElasticSearch)
 
     def get_cached_results(self):
-        if getattr(self, 'cached_results'):
+        if getattr(self, 'cached_results', None):
             return getattr(self.cached_results, 'data')
 
         # return self._cached_results()
@@ -104,6 +104,7 @@ def async_update_cached_data(obj, modification_date):
     refresh_rate = getattr(obj, "refresh_rate", "Weekly")
 
     # Refresh hourly if no results are found
+
     if refresh_rate == 'Once':
         if obj.get_cached_results():
             return
@@ -114,6 +115,7 @@ def async_update_cached_data(obj, modification_date):
 
     if refresh_rate == "Daily":
         delay = before + datetime.timedelta(days=1)
+
     if refresh_rate == "Weekly":
         delay = before + datetime.timedelta(weeks=1)
 

@@ -7,7 +7,7 @@
   <div class="card__expander">
     <i class="fa fa-close [ js-collapser ]"></i>
 
-    <div tal:replace="structure python: view.render_zoom(info)" >
+    <div tal:replace="structure python: view.render_zoom(info)">
       <div class="iframe-wrapper is-loading"
            tal:attributes="data-iframe-url string:${href}/embed-chart?chart=chart_1&chartWidth=600&padding=fixed;"
            data-iframe-width="600"
