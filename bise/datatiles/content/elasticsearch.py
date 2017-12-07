@@ -8,7 +8,6 @@ import logging
 import DateTime
 import pytz
 import requests
-# from eea.cache import cache
 from plone import namedfile
 from plone.app.async.interfaces import IAsyncService
 from plone.directives import dexterity, form
@@ -17,6 +16,8 @@ from plone.uuid.interfaces import IUUID
 from zope import schema
 from zope.component import getUtility
 from zope.interface import implements
+
+# from eea.cache import cache
 
 logger = logging.getLogger('bise.datatiles.elasticsearch')
 
