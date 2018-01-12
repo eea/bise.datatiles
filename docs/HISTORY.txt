@@ -3,6 +3,8 @@ Changelog
 
 1.4.dev0 - (unreleased)
 -----------------------
+* Add style for further links listing
+  [krisztina #85852]
 
 1.3 - (2017-09-22)
 ------------------
@@ -20,4 +22,3 @@ Changelog
 1.0 - (2017-04-13)
 ------------------
 - Initial release
-

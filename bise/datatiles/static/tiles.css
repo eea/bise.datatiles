@@ -459,6 +459,12 @@
   padding-top: 1em;
 }
 
+.cover-elasticsearchlisting-tile ul {
+  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGVJREFUeNpiYBgFOEFJU8t8ECakjgmPnAEQJwAN6SfXAEcg/gDEBUBDEkg2oKeu5gOSISDvBJDqAqIAI55AFABS54FYAYgTgS5aQKoL9kM1T8ClGQRY8BhwAYSBmgtHEzV+ABBgAARPHJK0cmRJAAAAAElFTkSuQmCC');
+  margin-bottom: 0;
+  margin-left: 1.3em !important;
+  padding-left: 0em;
+}
 
 /* }}} */
 
@@ -504,4 +510,3 @@
   top: -0.9rem !important;
   left: 1rem;
 }
-
